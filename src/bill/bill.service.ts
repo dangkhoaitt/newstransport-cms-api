@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { isNotEmptyObject } from 'class-validator'
 import { Buffer } from 'exceljs'
-import * as fs from 'fs'
 import { Collection, ObjectId } from 'mongodb'
 import { Finance } from 'src/finance/finance.interface'
 import { Package } from 'src/package/package.interface'
