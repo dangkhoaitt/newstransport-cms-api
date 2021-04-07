@@ -342,7 +342,7 @@ export class BillService extends BaseService<Bill> {
             rowData.push(senderInfo ? senderInfo.code || EMPTY_EXPORT : EMPTY_EXPORT)
             rowData.push(senderInfo ? senderInfo.name || EMPTY_EXPORT : EMPTY_EXPORT)
             rowData.push(senderInfo ? senderInfo.provinceName || EMPTY_EXPORT : EMPTY_EXPORT)
-          
+
             // row.insertTimeExport = insertTime
             //     ? timestampToDateStr(Number(row.insertTime / 1000), FORMAT_TIMESTAMP)
             //     : EMPTY_EXPORT
