@@ -6,9 +6,9 @@ export class ExportService {
     async generateExport(data: any): Promise<Buffer> {
         const template = `src/export/bill.xlsx`
         const workbook = await new Workbook().xlsx.readFile(template)
-        const workSheet = workbook.getWorksheet(1)
-        workSheet.addRows(data, 'i+')
-        workSheet.spliceRows(2,1);
-         return workbook.xlsx.writeBuffer()
+        const worksheet = workbook.getWorksheet(1)
+        worksheet.addRows(data, 'i+')
+        worksheet.spliceRows(2, 1)
+        return workbook.xlsx.writeBuffer()
     }
 }
