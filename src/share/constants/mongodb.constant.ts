@@ -1,0 +1,10 @@
+export const MONGODB_PROVIDER = 'MONGODB_CONNECTION'
+
+export const $USER_ID = '$userId'
+export const $_ID = '$_id'
+export const $$USER_ID = '$$userId'
+export const $USER = '$user'
+export const $PAGE = '$page'
+export const TOTAL_RECORDS = 'totalRecords'
+export const $TOTAL_RECORDS = '$totalRecords'
+export const $TOTAL_RECORDS_TOTAL_RECORDS = '$totalRecords.totalRecords'

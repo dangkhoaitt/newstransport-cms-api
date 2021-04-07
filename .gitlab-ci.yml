@@ -1,0 +1,33 @@
+image: node:10-alpine
+
+stages:
+    - test
+    - deploy
+
+test:
+    stage: test
+    environment:
+        name: testing
+    script:
+        - yarn
+        - yarn lint
+        - yarn build
+
+deploy-production:
+    stage: deploy
+    environment:
+        name: deploying
+        url: https://cms-api-dev.giaonhanhanghoa.xyz
+    only:
+        - master
+    before_script:
+        # check tools avalaible
+        - which bash || ( apk --update add bash )
+        - which ssh || ( apk --update add openssh )
+        # generate ssh key
+        - mkdir -p ~/.ssh
+        - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        - chmod 600 ~/.ssh/id_rsa
+        - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    script:
+        - bash .gitlab.deploy.sh

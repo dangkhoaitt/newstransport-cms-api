@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+    newtransport-cms-api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: newtransport-cms-api
+        container_name: newtransport-cms-api
+        ports:
+            - '7005:7005'
+        restart: unless-stopped
+        volumes:
+            - $HOME/logs:/home/ubuntu/logs
