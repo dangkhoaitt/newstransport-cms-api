@@ -163,9 +163,7 @@ export class BillService extends BaseService<Bill> {
         if (receiverInfo) document['receiveUnit'] = await this.includeUnitByPosition(provinces, receiverInfo)
 
         document['progress'] = await this.includeProgressName(progress)
-
         document['finance'] = await this.includeFinanceName(finance)
-
         document['unit'] = RequestHelper.getAuthUser().unit
 
         const result = await this.insertOne(this.collection, { ...body, ...document, discount, discountUnit })
@@ -336,29 +334,43 @@ export class BillService extends BaseService<Bill> {
         for (const row of data) {
             const rowData = []
             const { total, extraService, discount, goodsInfo, senderInfo, receiverInfo, insertTime } = row
+            rowData.push('')
             rowData.push(row.code || EMPTY_EXPORT)
-            rowData.push(row.progress || EMPTY_EXPORT)
-            rowData.push(row.progress || EMPTY_EXPORT)
             rowData.push(senderInfo ? senderInfo.code || EMPTY_EXPORT : EMPTY_EXPORT)
             rowData.push(senderInfo ? senderInfo.name || EMPTY_EXPORT : EMPTY_EXPORT)
+            rowData.push(row.progress || EMPTY_EXPORT)
+            rowData.push(row.finance || EMPTY_EXPORT)
             rowData.push(senderInfo ? senderInfo.provinceName || EMPTY_EXPORT : EMPTY_EXPORT)
+            rowData.push(senderInfo ? senderInfo.districtName || EMPTY_EXPORT : EMPTY_EXPORT)
+            rowData.push(receiverInfo ? receiverInfo.provinceName || EMPTY_EXPORT : EMPTY_EXPORT)
+            rowData.push(receiverInfo ? receiverInfo.districtName || EMPTY_EXPORT : EMPTY_EXPORT)
+            rowData.push(row.deliverMember || EMPTY_EXPORT)
+            rowData.push(this.getInventory(row.inventory))
+            rowData.push(row.mainService || EMPTY_EXPORT)
+            rowData.push('')
+            rowData.push(`${this.numberWithCommas(row.weight) || EMPTY_EXPORT} ${this.getWeightUnit(row.weightUnit)}`)
+            rowData.push((row.truck = row.truck || EMPTY_EXPORT))
+            rowData.push(`${this.numberWithCommas(discount) || EMPTY_EXPORT} ${row.discountUnit === 1 ? PERCENT : VND}`)
+            rowData.push(`${this.numberWithCommas(total) || EMPTY_EXPORT} ${VND}`)
+            rowData.push(
+                goodsInfo?.length > 0
+                    ? (row.goodsInfoExport = goodsInfo
+                          ?.map(
+                              g =>
+                                  `\u2022 ${g.quantity ? this.numberWithCommas(g.quantity) : '...'} ${packages?.find(
+                                      x => x.code === g.package
+                                  )?.name || '...'} : ${g.content || '...'}`
+                          )
+                          .join('\n'))
+                    : (row.goodsInfoExport = EMPTY_EXPORT)
+            )
+            rowData.push(senderInfo ? row.senderInfo.address || EMPTY_EXPORT : EMPTY_EXPORT)
+            rowData.push(receiverInfo ? row.receiverInfo.name || EMPTY_EXPORT : EMPTY_EXPORT)
+            rowData.push(receiverInfo ? row.receiverInfo.address || EMPTY_EXPORT : EMPTY_EXPORT)
+            rowData.push(
+                insertTime ? timestampToDateStr(Number(row.insertTime / 1000), FORMAT_TIMESTAMP) : EMPTY_EXPORT
+            )
 
-            // row.insertTimeExport = insertTime
-            //     ? timestampToDateStr(Number(row.insertTime / 1000), FORMAT_TIMESTAMP)
-            //     : EMPTY_EXPORT
-            // row.code = row.code || EMPTY_EXPORT
-            // row.progress = row.progress || EMPTY_EXPORT
-            // row.finance = row.progress || EMPTY_EXPORT
-            // row.senderCode = senderInfo ? senderInfo.code || EMPTY_EXPORT : EMPTY_EXPORT
-            // row.senderName = senderInfo ? senderInfo.name || EMPTY_EXPORT : EMPTY_EXPORT
-            // row.provinceTo = senderInfo ? senderInfo.provinceName || EMPTY_EXPORT : EMPTY_EXPORT
-            // row.districtTo = senderInfo ? senderInfo.districtName || EMPTY_EXPORT : EMPTY_EXPORT
-            // row.provinceFrom = receiverInfo ? receiverInfo.provinceName || EMPTY_EXPORT : EMPTY_EXPORT
-            // row.districtFrom = receiverInfo ? receiverInfo.districtName || EMPTY_EXPORT : EMPTY_EXPORT
-            // row.insertBy = row.insertBy || EMPTY_EXPORT
-            // row.deliverMember = row.deliverMember || EMPTY_EXPORT
-            // row.inventoryExport = this.getInventory(row.inventory)
-            // row.mainService = row.mainService || EMPTY_EXPORT
             // if (extraService?.length > 0) {
             //     for (let i = 0; i < maxLength; i++) {
             //         row[EXTRA_SERVICE_EXPORT + (i + 1)] = extraService[i]?.name || EMPTY_EXPORT
@@ -368,9 +380,7 @@ export class BillService extends BaseService<Bill> {
             //         row[EXTRA_SERVICE_EXPORT + i] = EMPTY_EXPORT
             //     }
             // }
-            // row.weightExport = `${this.numberWithCommas(row.weight) || EMPTY_EXPORT} ${this.getWeightUnit(
-            //     row.weightUnit
-            // )}`
+
             // row.truck = row.truck || EMPTY_EXPORT
             // if (goodsInfo?.length > 0) {
             //     row.goodsInfoExport = goodsInfo
@@ -382,15 +392,7 @@ export class BillService extends BaseService<Bill> {
             //         )
             //         .join('\n')
             // } else row.goodsInfoExport = EMPTY_EXPORT
-            // row.senderAdr = senderInfo ? row.senderInfo.address || EMPTY_EXPORT : EMPTY_EXPORT
-            // row.senderTel = senderInfo ? row.senderInfo.tel || EMPTY_EXPORT : EMPTY_EXPORT
-            // row.receiverName = receiverInfo ? row.receiverInfo.name || EMPTY_EXPORT : EMPTY_EXPORT
-            // row.receiverAdr = receiverInfo ? row.receiverInfo.address || EMPTY_EXPORT : EMPTY_EXPORT
-            // row.receiverTel = receiverInfo ? row.receiverInfo.tel || EMPTY_EXPORT : EMPTY_EXPORT
-            // row.discountExport = `${this.numberWithCommas(discount) || EMPTY_EXPORT} ${
-            //     row.discountUnit === 1 ? PERCENT : VND
-            // }`
-            // row.totalExport = `${this.numberWithCommas(total) || EMPTY_EXPORT} ${VND}`
+
             xlsData.push(rowData)
         }
         return { xlsData, extraServiceFields }
