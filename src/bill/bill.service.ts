@@ -39,7 +39,6 @@ import { BillImportValidator, BillSearch, BillValidator, GoodsInfo, UserInfo } f
  * @author Thuan
  */
 
-type Export = { xlsData: any[]; extraServiceFields: string[] }
 @Injectable()
 export class BillService extends BaseService<Bill> {
     constructor(
@@ -322,14 +321,10 @@ export class BillService extends BaseService<Bill> {
         throw new HttpException('Vận đơn không tồn tại', HttpStatus.BAD_REQUEST)
     }
 
-    private async generateExport(data: BillExport[]): Promise<Export> {
+    private async generateExport(data: BillExport[]): Promise<object[]> {
         const packages = await this.find<Package>(this.packageCollection, {}, { projection: { code: 1, name: 1 } })
-        const extraServiceLengths = data.filter(x => x.extraService)?.map(x => x.extraService?.length) || [0]
-        const maxLength = Math.max(...extraServiceLengths)
-        const extraServiceFields: string[] = []
-        for (let i = 0; i < maxLength; i++) {
-            extraServiceFields.push(EXTRA_SERVICE_EXPORT + (i + 1))
-        }
+        // const extraServiceLengths = data.filter(x => x.extraService)?.map(x => x.extraService?.length) || [0]
+        // const extraServiceMaxQuantity = Math.max(...extraServiceLengths)
         const xlsData = []
         for (const row of data) {
             const rowData = []
@@ -344,58 +339,44 @@ export class BillService extends BaseService<Bill> {
             rowData.push(senderInfo ? senderInfo.districtName || EMPTY_EXPORT : EMPTY_EXPORT)
             rowData.push(receiverInfo ? receiverInfo.provinceName || EMPTY_EXPORT : EMPTY_EXPORT)
             rowData.push(receiverInfo ? receiverInfo.districtName || EMPTY_EXPORT : EMPTY_EXPORT)
+            rowData.push(row.insertBy ? row.insertBy || EMPTY_EXPORT : EMPTY_EXPORT)
             rowData.push(row.deliverMember || EMPTY_EXPORT)
             rowData.push(this.getInventory(row.inventory))
             rowData.push(row.mainService || EMPTY_EXPORT)
-            rowData.push('')
+            if (extraService?.length > 0) {
+                for (let i = 0; i < 5; i++) {
+                    rowData.push(EMPTY_EXPORT)
+                    //rowData.push(extraService[i]?.name)
+                }
+            } else {
+                for (let i = 0; i < 5; i++) {
+                    rowData.push(EMPTY_EXPORT)
+                }
+            }
             rowData.push(`${this.numberWithCommas(row.weight) || EMPTY_EXPORT} ${this.getWeightUnit(row.weightUnit)}`)
             rowData.push((row.truck = row.truck || EMPTY_EXPORT))
             rowData.push(`${this.numberWithCommas(discount) || EMPTY_EXPORT} ${row.discountUnit === 1 ? PERCENT : VND}`)
             rowData.push(`${this.numberWithCommas(total) || EMPTY_EXPORT} ${VND}`)
             rowData.push(
                 goodsInfo?.length > 0
-                    ? (row.goodsInfoExport = goodsInfo
+                    ? goodsInfo
                           ?.map(
                               g =>
                                   `\u2022 ${g.quantity ? this.numberWithCommas(g.quantity) : '...'} ${packages?.find(
                                       x => x.code === g.package
                                   )?.name || '...'} : ${g.content || '...'}`
                           )
-                          .join('\n'))
-                    : (row.goodsInfoExport = EMPTY_EXPORT)
+                          .join('\n')
+                    : EMPTY_EXPORT
             )
-            rowData.push(senderInfo ? row.senderInfo.address || EMPTY_EXPORT : EMPTY_EXPORT)
-            rowData.push(receiverInfo ? row.receiverInfo.name || EMPTY_EXPORT : EMPTY_EXPORT)
-            rowData.push(receiverInfo ? row.receiverInfo.address || EMPTY_EXPORT : EMPTY_EXPORT)
-            rowData.push(
-                insertTime ? timestampToDateStr(Number(row.insertTime / 1000), FORMAT_TIMESTAMP) : EMPTY_EXPORT
-            )
-
-            // if (extraService?.length > 0) {
-            //     for (let i = 0; i < maxLength; i++) {
-            //         row[EXTRA_SERVICE_EXPORT + (i + 1)] = extraService[i]?.name || EMPTY_EXPORT
-            //     }
-            // } else {
-            //     for (let i = 1; i <= maxLength; i++) {
-            //         row[EXTRA_SERVICE_EXPORT + i] = EMPTY_EXPORT
-            //     }
-            // }
-
-            // row.truck = row.truck || EMPTY_EXPORT
-            // if (goodsInfo?.length > 0) {
-            //     row.goodsInfoExport = goodsInfo
-            //         ?.map(
-            //             g =>
-            //                 `\u2022 ${g.quantity ? this.numberWithCommas(g.quantity) : '...'} ${packages?.find(
-            //                     x => x.code === g.package
-            //                 )?.name || '...'} : ${g.content || '...'}`
-            //         )
-            //         .join('\n')
-            // } else row.goodsInfoExport = EMPTY_EXPORT
+            rowData.push(senderInfo ? senderInfo.address || EMPTY_EXPORT : EMPTY_EXPORT)
+            rowData.push(receiverInfo ? senderInfo.name || EMPTY_EXPORT : EMPTY_EXPORT)
+            rowData.push(receiverInfo ? senderInfo.address || EMPTY_EXPORT : EMPTY_EXPORT)
+            rowData.push(insertTime ? timestampToDateStr(Number(insertTime / 1000), FORMAT_TIMESTAMP) : EMPTY_EXPORT)
 
             xlsData.push(rowData)
         }
-        return { xlsData, extraServiceFields }
+        return xlsData
     }
     private getWeightUnit(unitKey: WeightUnit): string {
         switch (unitKey) {
@@ -475,9 +456,9 @@ export class BillService extends BaseService<Bill> {
             projection
         })
         if (result.length === 0) return null
-        const bill = await this.generateExport(result)
-        if (!bill) return null
-        return this.exportService.generateExport(bill.xlsData)
+        const bills = await this.generateExport(result)
+        if (bills.length === 0) return null
+        return this.exportService.generateExport(bills)
     }
 
     private numberWithCommas(num = 0): string {
