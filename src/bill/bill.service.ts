@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { isNotEmptyObject } from 'class-validator'
-import { Buffer, Column } from 'exceljs'
+import { Buffer } from 'exceljs'
 import * as fs from 'fs'
 import { Collection, ObjectId } from 'mongodb'
 import { Finance } from 'src/finance/finance.interface'
@@ -12,7 +12,7 @@ import { EMPTY_OBJECT } from 'src/share/constants/app-constant'
 import { CollectionList, CounterCodes } from 'src/share/constants/collection.constant'
 import { RequestHelper } from 'src/share/helpers/request.helper'
 import { BaseService, emptyFacet, Facet } from 'src/share/service/base.service'
-import { ColumnDefinition, ExportService } from 'src/share/service/export.service'
+import { ExportService } from 'src/share/service/export.service'
 import { timestampToDateStr } from 'src/share/utils/date.util'
 import { Truck } from 'src/truck/truck.interface'
 import { Unit } from 'src/unit/unit.interface'
@@ -20,17 +20,7 @@ import { User } from 'src/user/user.interface'
 import { WinstonLogger } from 'src/winston/winston.classes'
 import { InjectLogger } from 'src/winston/winston.decorators'
 import { isUndefined } from '../share/common'
-import {
-    BILL_COLUMN_URL,
-    EMPTY_EXPORT,
-    EXTRA_SERVICE_EXPORT,
-    FORMAT_TIMESTAMP,
-    InventoryUnit,
-    PERCENT,
-    SHEET_NAME,
-    VND,
-    WeightUnit
-} from './bill.constant'
+import { EMPTY_EXPORT, FORMAT_TIMESTAMP, InventoryUnit, PERCENT, VND, WeightUnit } from './bill.constant'
 import { Bill, BillExport } from './bill.interface'
 import { BillImportValidator, BillSearch, BillValidator, GoodsInfo, UserInfo } from './bill.validator'
 
