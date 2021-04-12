@@ -32,7 +32,7 @@ export class UserController {
     @Post()
     @Roles(ADMIN)
     @UsePipes(new MainValidationPipe())
-    async create(@Body() body: InsertUserValidator): Promise<object> {
+    async create(@Body() body: InsertUserValidator):string {
         return await this.userService.create(body)
     }
 
