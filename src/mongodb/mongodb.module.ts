@@ -23,7 +23,7 @@ export class MongodbModule {
     }
 
     static useCollection(collectionName: CollectionList): DynamicModule {
-        const provider: Provider = {
+        const useCollectionProvider: Provider = {
             provide: collectionName,
             useFactory: function(db: Db): Collection {
                 return db.collection(collectionName)
@@ -33,8 +33,8 @@ export class MongodbModule {
 
         return {
             module: MongodbModule,
-            providers: [provider],
-            exports: [provider]
+            providers: [useCollectionProvider],
+            exports: [useCollectionProvider]
         }
     }
 }
