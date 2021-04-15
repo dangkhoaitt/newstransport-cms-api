@@ -8,7 +8,7 @@ import { IdValidator } from 'src/share/validator/base.validator'
 
 /**
  * Service Controller
- * @author Thuan
+ * @author Khoa
  */
 @Controller('service')
 export class ServiceController {

@@ -4,7 +4,7 @@ import { Exist } from 'src/share/validator/base.validator'
 
 /**
  * Truck Validator
- * @author Thuan
+ * @author Khoa
  */
 
 export class TruckValidator {

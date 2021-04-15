@@ -2,7 +2,7 @@ import { BaseInterface } from 'src/share/interfaces/base.interface'
 
 /**
  * Progress Interface
- * @author Thuan
+ * @author Khoa
  */
 export interface Progress extends BaseInterface {
     code: string

@@ -8,7 +8,7 @@ import { QuoteService } from './quote.service'
 
 /**
  * Quote Controller
- * @author Thuan
+ * @author Khoa
  */
 @Controller('quote')
 export class QuoteController {

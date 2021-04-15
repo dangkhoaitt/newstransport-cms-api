@@ -8,7 +8,7 @@ import { ProgressValidator } from './progress.validator'
 
 /**
  * Progress Controller
- * @author Thuan
+ * @author Khoa
  */
 @Controller('progress')
 export class ProgressController {

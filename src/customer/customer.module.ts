@@ -7,7 +7,7 @@ import { CustomerService } from './customer.service'
 
 /**
  * Customer Module
- * @author Thuan
+ * @author Khoa
  */
 @Module({
     imports: [

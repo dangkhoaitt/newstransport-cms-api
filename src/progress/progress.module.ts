@@ -7,7 +7,7 @@ import { ProgressService } from './progress.service'
 
 /**
  * Progress Module
- * @author Thuan
+ * @author Khoa
  */
 @Module({
     imports: [

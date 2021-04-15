@@ -2,7 +2,7 @@ import { IsNotEmpty, IsString, Matches, MaxLength } from 'class-validator'
 
 /**
  * Quote Validator
- * @author Thuan
+ * @author Khoa
  */
 
 export class QuoteValidator {

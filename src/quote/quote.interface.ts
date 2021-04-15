@@ -2,7 +2,7 @@ import { BaseInterface } from 'src/share/interfaces/base.interface'
 
 /**
  * Quote Interface
- * @author Thuan
+ * @author Khoa
  */
 export interface Quote extends BaseInterface {
     name: string

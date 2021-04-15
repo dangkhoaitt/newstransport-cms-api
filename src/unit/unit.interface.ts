@@ -2,7 +2,7 @@ import { BaseInterface } from 'src/share/interfaces/base.interface'
 
 /**
  * Unit Interface
- * @author Thuan
+ * @author Khoa
  */
 export interface Unit extends BaseInterface {
     code: string

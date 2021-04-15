@@ -14,7 +14,7 @@ import { CustomerValidator } from './customer.validator'
 
 /**
  * Customer Service
- * @author Thuan
+ * @author Khoa
  */
 @Injectable()
 export class CustomerService extends BaseService<Customer> {
@@ -41,9 +41,13 @@ export class CustomerService extends BaseService<Customer> {
      * @param isCode
      * @returns customer document
      */
-    async getDetail(param: string, isCode : BooleanString): Promise<object> {
-        if (!isTrue(isCode) && !isMongoId(param)) throw new HttpException('id must be a mongodb id', HttpStatus.BAD_REQUEST)
-        const customer = await this.findOne(this.collection, isTrue(isCode) ? { code: param } : { _id: new ObjectId(param) })
+    async getDetail(param: string, isCode: BooleanString): Promise<object> {
+        if (!isTrue(isCode) && !isMongoId(param))
+            throw new HttpException('id must be a mongodb id', HttpStatus.BAD_REQUEST)
+        const customer = await this.findOne(
+            this.collection,
+            isTrue(isCode) ? { code: param } : { _id: new ObjectId(param) }
+        )
         if (!customer) throw new HttpException('Khách hàng không tồn tại', HttpStatus.BAD_REQUEST)
         return customer
     }
@@ -55,7 +59,11 @@ export class CustomerService extends BaseService<Customer> {
      */
     async insert(body: CustomerValidator): Promise<object> {
         const { province, district, code, ...customerInfo } = body
-        const objProvince = await this.findOne<Province>( this.provinceCollection, { code: province }, { projection: { code: 1, name: 1, district: 1 } } )
+        const objProvince = await this.findOne<Province>(
+            this.provinceCollection,
+            { code: province },
+            { projection: { code: 1, name: 1, district: 1 } }
+        )
         if (!objProvince) throw new HttpException('Tỉnh/Thành không hợp lệ', HttpStatus.BAD_REQUEST)
 
         const objDistrict = objProvince.district?.find(c => c.code === district)
@@ -85,7 +93,11 @@ export class CustomerService extends BaseService<Customer> {
     async edit(id: string, body: CustomerValidator): Promise<object> {
         const { province, district, ...customerInfo } = body
         if (province) {
-            const objProvince = await this.findOne<Province>( this.provinceCollection, { code: province }, { projection: { code: 1, name: 1, district: 1 } } )
+            const objProvince = await this.findOne<Province>(
+                this.provinceCollection,
+                { code: province },
+                { projection: { code: 1, name: 1, district: 1 } }
+            )
             if (!objProvince) throw new HttpException('Tỉnh/Thành không hợp lệ', HttpStatus.BAD_REQUEST)
 
             const objDistrict = objProvince.district?.find(c => c.code === district)
@@ -94,10 +106,18 @@ export class CustomerService extends BaseService<Customer> {
             customerInfo['province'] = { code: objProvince.code, name: objProvince.name }
             customerInfo['district'] = objDistrict
         } else if (district) {
-            const customer = await this.findOne( this.collection, { _id: new ObjectId(id) }, { projection: { province: 1 } } )
+            const customer = await this.findOne(
+                this.collection,
+                { _id: new ObjectId(id) },
+                { projection: { province: 1 } }
+            )
             if (!customer) throw new HttpException('Khách hàng không tồn tại', HttpStatus.BAD_REQUEST)
 
-            const objProvince = await this.findOne<Province>( this.provinceCollection, { code: customer.province.code }, { projection: { code: 1, name: 1, district: 1 } } )
+            const objProvince = await this.findOne<Province>(
+                this.provinceCollection,
+                { code: customer.province.code },
+                { projection: { code: 1, name: 1, district: 1 } }
+            )
             const objDistrict = objProvince.district?.find(c => c.code === district)
             if (!district) throw new HttpException('Quận/Huyện không hợp lệ', HttpStatus.BAD_REQUEST)
 
