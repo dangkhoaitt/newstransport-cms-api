@@ -10,7 +10,7 @@ import { InsertProvinceValidator, ProvinceValidator } from './province.validator
 
 /**
  * Province Service
- * @author Khoa
+ * @author KhoaVD
  */
 @Injectable()
 export class ProvinceService extends BaseService<Province> {

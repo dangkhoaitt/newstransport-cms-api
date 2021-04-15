@@ -6,7 +6,7 @@ import { Exist } from 'src/share/validator/base.validator'
 
 /**
  * Customer Validator
- * @author Khoa
+ * @author KhoaVD
  */
 export class CustomerValidator {
     @IsOptional()

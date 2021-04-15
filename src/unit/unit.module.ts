@@ -7,7 +7,7 @@ import { UnitService } from './unit.service'
 
 /**
  * Unit Module
- * @author Khoa
+ * @author KhoaVD
  */
 @Module({
     imports: [

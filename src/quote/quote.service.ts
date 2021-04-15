@@ -9,7 +9,7 @@ import { Quote } from './quote.interface'
 
 /**
  * Quote Service
- * @author Khoa
+ * @author KhoaVD
  */
 @Injectable()
 export class QuoteService extends BaseService<Quote> {

@@ -25,7 +25,7 @@ import { BillImportValidator, BillSearch, BillValidator } from './bill.validator
 
 /**
  * Bill Controller
- * @author Khoa
+ * @author KhoaVD
  */
 @Controller('bill')
 export class BillController {

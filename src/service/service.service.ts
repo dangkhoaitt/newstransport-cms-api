@@ -13,7 +13,7 @@ import { ServiceBody, ServiceSearch } from './service.validator'
 
 /**
  * Service Service
- * @author Khoa
+ * @author KhoaVD
  */
 @Injectable()
 export class ServiceService extends BaseService<Service> {

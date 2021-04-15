@@ -2,7 +2,7 @@ import { BaseInterface } from 'src/share/interfaces/base.interface'
 
 /**
  * Truck Interface
- * @author Khoa
+ * @author KhoaVD
  */
 export interface Truck extends BaseInterface {
     code: string

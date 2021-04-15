@@ -14,7 +14,7 @@ import { CustomerValidator } from './customer.validator'
 
 /**
  * Customer Service
- * @author Khoa
+ * @author KhoaVD
  */
 @Injectable()
 export class CustomerService extends BaseService<Customer> {

@@ -7,7 +7,7 @@ import { PackageService } from './package.service'
 
 /**
  * Package Module
- * @author Khoa
+ * @author KhoaVD
  */
 @Module({
     imports: [

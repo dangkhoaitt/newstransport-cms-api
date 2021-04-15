@@ -10,7 +10,7 @@ import { ProgressValidator } from './progress.validator'
 
 /**
  * Progress Service
- * @author Khoa
+ * @author KhoaVD
  */
 @Injectable()
 export class ProgressService extends BaseService<Progress> {
