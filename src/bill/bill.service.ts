@@ -25,7 +25,7 @@ import { BillImportValidator, BillSearch, BillValidator, GoodsInfo, UserInfo } f
 
 /**
  * Bill Service
- * @author Thuan
+ * @author Khoa
  */
 
 @Injectable()

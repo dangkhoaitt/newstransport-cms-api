@@ -8,7 +8,7 @@ import { FinanceValidator } from './finance.validator'
 
 /**
  * Finance Controller
- * @author Thuan
+ * @author Khoa
  */
 @Controller('finance')
 export class FinanceController {

@@ -13,7 +13,7 @@ import { ServiceBody, ServiceSearch } from './service.validator'
 
 /**
  * Service Service
- * @author Thuan
+ * @author Khoa
  */
 @Injectable()
 export class ServiceService extends BaseService<Service> {
@@ -81,11 +81,17 @@ export class ServiceService extends BaseService<Service> {
         body.distanceArr?.forEach(o => {
             if (body.isDistance) {
                 if (distanceArr.some(dr => dr.positionFrom == o.positionFrom && dr.positionTo == o.positionTo))
-                    throw new HttpException(`Địa điểm bị trùng: ${o.positionFrom}-${o.positionTo}`, HttpStatus.BAD_REQUEST)
+                    throw new HttpException(
+                        `Địa điểm bị trùng: ${o.positionFrom}-${o.positionTo}`,
+                        HttpStatus.BAD_REQUEST
+                    )
                 o.positionFromName = provinceAndDistrict.find(pro => pro.code == o.positionFrom)?.name
                 o.positionToName = provinceAndDistrict.find(pro => pro.code == o.positionTo)?.name
                 if (!o.positionFromName || !o.positionToName)
-                    throw new HttpException(`Địa điểm không tồn tại: ${o.positionFrom}-${o.positionTo}`, HttpStatus.BAD_REQUEST)
+                    throw new HttpException(
+                        `Địa điểm không tồn tại: ${o.positionFrom}-${o.positionTo}`,
+                        HttpStatus.BAD_REQUEST
+                    )
             }
             const priceArr = []
             o.priceArr.forEach(p => {
@@ -104,16 +110,20 @@ export class ServiceService extends BaseService<Service> {
             })
             distanceArr.push(o)
         })
-        const document = {...body, distanceArr}
+        const document = { ...body, distanceArr }
 
         const result = await this.insertOne(this.collection, document)
-        await this.insertOrder(body.isExtra ? 'extra-service' : 'main-service', result.ops[0]._id.toString(), body['order'])
+        await this.insertOrder(
+            body.isExtra ? 'extra-service' : 'main-service',
+            result.ops[0]._id.toString(),
+            body['order']
+        )
         result.ops[0]['order'] = body['order']
         return result.ops[0]
     }
 
     async edit(id: string, body: ServiceBody): Promise<object> {
-        const service = await this.findOne(this.collection, { _id: new ObjectId(id)})
+        const service = await this.findOne(this.collection, { _id: new ObjectId(id) })
         if (service.code == 'COD') throw new HttpException('Không thể chỉnh sửa dịch vụ này!', HttpStatus.BAD_REQUEST)
         const document = {}
         if (!isNullOrUndefined(body.name)) document['name'] = body.name
@@ -143,11 +153,17 @@ export class ServiceService extends BaseService<Service> {
             body.distanceArr?.forEach(o => {
                 if (body.hasOwnProperty('isDistance') ? body.isDistance : service.isDistance) {
                     if (distanceArr.some(dr => dr.positionFrom == o.positionFrom && dr.positionTo == o.positionTo))
-                        throw new HttpException(`Địa điểm bị trùng: ${o.positionFrom}-${o.positionTo}`, HttpStatus.BAD_REQUEST)
+                        throw new HttpException(
+                            `Địa điểm bị trùng: ${o.positionFrom}-${o.positionTo}`,
+                            HttpStatus.BAD_REQUEST
+                        )
                     o.positionFromName = provinceAndDistrict.find(pro => pro.code == o.positionFrom)?.name
                     o.positionToName = provinceAndDistrict.find(pro => pro.code == o.positionTo)?.name
                     if (!o.positionFromName || !o.positionToName)
-                        throw new HttpException(`Địa điểm không tồn tại: ${o.positionFrom}-${o.positionTo}`, HttpStatus.BAD_REQUEST)
+                        throw new HttpException(
+                            `Địa điểm không tồn tại: ${o.positionFrom}-${o.positionTo}`,
+                            HttpStatus.BAD_REQUEST
+                        )
                 }
                 const priceArr = []
                 o.priceArr.forEach(p => {
@@ -168,18 +184,23 @@ export class ServiceService extends BaseService<Service> {
             })
             document['distanceArr'] = distanceArr
         }
-        if (isObjectEmpty(document) && isNullOrUndefined(body['order'])) throw new HttpException('', HttpStatus.NO_CONTENT)
+        if (isObjectEmpty(document) && isNullOrUndefined(body['order']))
+            throw new HttpException('', HttpStatus.NO_CONTENT)
 
         const result = await this.findOneAndUpdate(this.collection, { _id: new ObjectId(id) }, body)
-        const serviceType = (body.hasOwnProperty('isExtra') ? body.isExtra : service.isExtra) ? 'extra-service' : 'main-service'
+        const serviceType = (body.hasOwnProperty('isExtra')
+          ? body.isExtra
+          : service.isExtra)
+            ? 'extra-service'
+            : 'main-service'
         if (!isNullOrUndefined(body['order'])) await this.updateOrder(serviceType, id, body['order'])
         if (result.value) return result.value
         throw new HttpException('', HttpStatus.NO_CONTENT)
     }
 
     async delete(id: string): Promise<boolean> {
-        const service = await this.findOne(this.collection, { _id: new ObjectId(id)})
-        if(service.code == 'COD') throw new HttpException('Không thể xóa dịch vụ này!', HttpStatus.BAD_REQUEST)
+        const service = await this.findOne(this.collection, { _id: new ObjectId(id) })
+        if (service.code == 'COD') throw new HttpException('Không thể xóa dịch vụ này!', HttpStatus.BAD_REQUEST)
         const result = await this.deleteOne(this.collection, { _id: new ObjectId(id), code: this.neCondition('COD') })
         await this.deleteOrder('service', id)
         if (result.modifiedCount > 0) return null

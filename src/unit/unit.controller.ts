@@ -8,7 +8,7 @@ import { UnitValidator } from './unit.validator'
 
 /**
  * Unit Controller
- * @author Thuan
+ * @author Khoa
  */
 @Controller('unit')
 export class UnitController {

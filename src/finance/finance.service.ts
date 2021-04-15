@@ -10,7 +10,7 @@ import { FinanceValidator } from './finance.validator'
 
 /**
  * Finance Service
- * @author Thuan
+ * @author Khoa
  */
 @Injectable()
 export class FinanceService extends BaseService<Finance> {

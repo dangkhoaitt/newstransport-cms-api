@@ -4,7 +4,7 @@ import { Exist } from 'src/share/validator/base.validator'
 
 /**
  * Package Validator
- * @author Thuan
+ * @author Khoa
  */
 
 export class PackageValidator {

@@ -8,7 +8,7 @@ import { CustomerValidator, EditCustomerValidator } from './customer.validator'
 
 /**
  * Customer Controller
- * @author Thuan
+ * @author Khoa
  */
 @Controller('customer')
 export class CustomerController {

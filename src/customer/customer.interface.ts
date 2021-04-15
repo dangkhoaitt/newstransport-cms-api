@@ -1,8 +1,8 @@
-import { BaseInterface } from 'src/share/interfaces/base.interface';
+import { BaseInterface } from 'src/share/interfaces/base.interface'
 
 /**
  * Customer Interface
- * @author Thuan
+ * @author Khoa
  */
 export interface Customer extends BaseInterface {
     code: string

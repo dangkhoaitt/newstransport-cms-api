@@ -16,7 +16,7 @@ import { DiscountType, WeightUnit } from './bill.constant'
 
 /**
  * Bill Validator
- * @author Thuan
+ * @author Khoa
  */
 
 export class UserInfo {

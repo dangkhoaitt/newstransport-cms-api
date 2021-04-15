@@ -6,7 +6,7 @@ import { MONGODB_PROVIDER } from 'src/share/constants/mongodb.constant'
 @Module({})
 export class MongodbModule {
     static forRoot(connectionString: string, options?: MongoClientOptions): DynamicModule {
-        const mongodbProdiver: Provider = {
+        const mongodbProvider: Provider = {
             provide: MONGODB_PROVIDER,
             useFactory: async function(): Promise<Db> {
                 const client = await MongoClient.connect(connectionString, options)
@@ -17,8 +17,8 @@ export class MongodbModule {
         return {
             global: true,
             module: MongodbModule,
-            providers: [mongodbProdiver],
-            exports: [mongodbProdiver]
+            providers: [mongodbProvider],
+            exports: [mongodbProvider]
         }
     }
 

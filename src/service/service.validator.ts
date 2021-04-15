@@ -16,7 +16,7 @@ import { removeSpecialCharacter } from 'src/share/utils/string.util'
 
 /**
  * Service Validator
- * @author Thuan
+ * @author Khoa
  */
 
 export class Price {
@@ -102,7 +102,6 @@ export class ServiceBody {
     @IsOptional()
     @IsNumber()
     order: number
-
 }
 
 export class ServiceSearch {

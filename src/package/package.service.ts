@@ -10,7 +10,7 @@ import { PackageValidator } from './package.validator'
 
 /**
  * Package Service
- * @author Thuan
+ * @author Khoa
  */
 @Injectable()
 export class PackageService extends BaseService<Package> {
