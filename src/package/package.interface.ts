@@ -2,7 +2,7 @@ import { BaseInterface } from 'src/share/interfaces/base.interface'
 
 /**
  * Package Interface
- * @author Khoa
+ * @author KhoaVD
  */
 export interface Package extends BaseInterface {
     code: string

@@ -7,7 +7,7 @@ import { TruckService } from './truck.service'
 
 /**
  * Truck Module
- * @author Khoa
+ * @author KhoaVD
  */
 @Module({
     imports: [

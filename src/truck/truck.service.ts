@@ -10,7 +10,7 @@ import { TruckValidator } from './truck.validator'
 
 /**
  * Truck Service
- * @author Khoa
+ * @author KhoaVD
  */
 @Injectable()
 export class TruckService extends BaseService<Truck> {

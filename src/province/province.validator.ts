@@ -5,7 +5,7 @@ import { Exist } from 'src/share/validator/base.validator'
 
 /**
  * Province Validator
- * @author Khoa
+ * @author KhoaVD
  */
 
 class District {

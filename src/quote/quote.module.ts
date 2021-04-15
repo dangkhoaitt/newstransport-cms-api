@@ -7,7 +7,7 @@ import { QuoteService } from './quote.service'
 
 /**
  * Quote Module
- * @author Khoa
+ * @author KhoaVD
  */
 @Module({
     imports: [

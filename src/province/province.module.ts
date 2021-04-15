@@ -7,7 +7,7 @@ import { ProvinceService } from './province.service'
 
 /**
  * Province Module
- * @author Khoa
+ * @author KhoaVD
  */
 @Module({
     imports: [

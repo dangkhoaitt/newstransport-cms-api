@@ -16,7 +16,7 @@ import { removeSpecialCharacter } from 'src/share/utils/string.util'
 
 /**
  * Service Validator
- * @author Khoa
+ * @author KhoaVD
  */
 
 export class Price {

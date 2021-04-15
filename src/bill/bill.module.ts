@@ -8,7 +8,7 @@ import { BillService } from './bill.service'
 
 /**
  * Bill Module
- * @author Khoa
+ * @author KhoaVD
  */
 @Module({
     imports: [

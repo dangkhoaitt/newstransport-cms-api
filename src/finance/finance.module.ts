@@ -7,7 +7,7 @@ import { FinanceService } from './finance.service'
 
 /**
  * Finance Module
- * @author Khoa
+ * @author KhoaVD
  */
 @Module({
     imports: [

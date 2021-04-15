@@ -7,7 +7,7 @@ import { ServiceService } from './service.service'
 
 /**
  * Service Module
- * @author Khoa
+ * @author KhoaVD
  */
 @Module({
     imports: [

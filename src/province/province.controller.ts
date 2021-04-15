@@ -8,7 +8,7 @@ import { InsertProvinceValidator, ProvinceValidator } from './province.validator
 
 /**
  * Province Controller
- * @author Khoa
+ * @author KhoaVD
  */
 @Controller('province')
 export class ProvinceController {

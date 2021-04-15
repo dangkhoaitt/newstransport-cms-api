@@ -8,7 +8,7 @@ import { TruckValidator } from './truck.validator'
 
 /**
  * Truck Controller
- * @author Khoa
+ * @author KhoaVD
  */
 @Controller('truck')
 export class TruckController {

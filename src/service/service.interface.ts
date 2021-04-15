@@ -2,7 +2,7 @@ import { BaseInterface } from 'src/share/interfaces/base.interface'
 
 /**
  * Service Interface
- * @author Khoa
+ * @author KhoaVD
  */
 export interface Service extends BaseInterface {
     code: string

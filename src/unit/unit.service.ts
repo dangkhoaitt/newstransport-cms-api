@@ -10,7 +10,7 @@ import { UnitValidator } from './unit.validator'
 
 /**
  * Unit Service
- * @author Khoa
+ * @author KhoaVD
  */
 @Injectable()
 export class UnitService extends BaseService<Unit> {

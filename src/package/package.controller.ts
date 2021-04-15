@@ -8,7 +8,7 @@ import { PackageValidator } from './package.validator'
 
 /**
  * Package Controller
- * @author Khoa
+ * @author KhoaVD
  */
 @Controller('package')
 export class PackageController {

@@ -4,7 +4,7 @@ import { Exist } from 'src/share/validator/base.validator'
 
 /**
  * Progress Validator
- * @author Khoa
+ * @author KhoaVD
  */
 
 export class ProgressValidator {

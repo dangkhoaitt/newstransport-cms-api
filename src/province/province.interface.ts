@@ -3,7 +3,7 @@ import { Unit } from 'src/unit/unit.interface'
 
 /**
  * Province Interface
- * @author Khoa
+ * @author KhoaVD
  */
 export interface Province extends BaseInterface, District {
     district?: District[]

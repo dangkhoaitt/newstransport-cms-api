@@ -4,7 +4,7 @@ import { Exist } from 'src/share/validator/base.validator'
 
 /**
  * Finance Validator
- * @author Khoa
+ * @author KhoaVD
  */
 
 export class FinanceValidator {
